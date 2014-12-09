@@ -11,8 +11,11 @@
   "dependencies": {
     "commander": "~2.5.0",
     "dive": "~0.3.0",
-    "npm": "~2.1.11",
-    "ansi": "~0.3.0"
+    "npm": "~2.1.0",
+    "ansi": "~0.3.0",
+    "rimraf": "~2.2.8",
+    "after": "~0.8.1",
+    "cli-prompt": "~0.4.1"
   },
   "bin": {
     "rnpm": "./bin/rnpm"

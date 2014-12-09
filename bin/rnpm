@@ -9,14 +9,38 @@ app
   .version(JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf-8')).version);
 
 app
-  .option('--production', 'Ignore `devDependencies`.')
+  .option('--prod, --production', 'Ignore `devDependencies`.')
   .option('--strict', 'Fail on inconsistent dependencies.')
 
 app
   .command('install')
+  .alias('i')
   .description('Recursively install dependencies')
   .action(function() {
     rnpm.install({ production: app.production, strict: app.strict })
+  });
+
+app
+  .command('prune')
+  .description('Recursive npm prune')
+  .action(function() {
+    rnpm.prune({ production: app.production })
+  });
+
+app
+  .command('shrinkwrap')
+  .description('Recursive npm shrinkwrap')
+  .action(function() {
+    rnpm.custom('shrinkwrap')
+  });
+
+app
+  .command('list')
+  .alias('ls')
+  .option('--depth [n]', 'Max display depth of the dependency tree', parseInt)
+  .description('Recursive npm list')
+  .action(function(opts) {
+    rnpm.custom('list', {depth: opts.depth || 0})
   });
 
 app
