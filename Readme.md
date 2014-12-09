@@ -17,7 +17,7 @@ Suppose you have the following directory structure:
     main.js
     package.json
 
-Here we have two components: `login` and `settings`, each with its own `package.json`. When you run `rnpm install`, rnpm will traverse the tree to collect the dependencies listed in each `package.json`. It will then install each dependency at the project root:
+Here we have two components: `login` and `settings`, each with its own `package.json`. When you run `rnpm install`, rnpm will collect the dependencies listed in each `package.json`. It will then install each dependency at the project root:
 
     lib/
       login/
