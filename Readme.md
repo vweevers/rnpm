@@ -3,7 +3,7 @@ rnpm - recursive npm
 
 `rnpm` is a wrapper around `npm` to allow the installation of dependencies declared in multiple `package.json` files nested into a project structure. This is useful for large projects that are composed of multiple independent *components*.
 
-## `rnpm install`
+## `rnpm install [--production]`
 
 Suppose you have the following directory structure:
 
@@ -37,7 +37,7 @@ If two or more components depend on different versions of the same module, rnpm 
 
 For your convenience and npm compatibility, `install` is aliased as `i`.
 
-## `rnpm analyze`
+## `rnpm analyze [--production]`
 
 Check for conflicting dependency versions and show warnings, without installing anything.
 
@@ -53,19 +53,27 @@ Recursively update a dependency version across multiple `package.json` files. It
 
 Check for conflicting dependency versions, and prompt for the correct version on each inconsistency found. It's equivalent to calling `rnpm analyze` and then `rnpm update-dep` manually (but much faster).
 
+## `rnpm run [script]`
+
+Run a script with `npm run` for every component (including root). If no `script` argument is provided, it will list available scripts.
+
+## `rnpm test`
+
+Run `npm test` for every component (including root). Aliased as `t`. You could also do `rnpm run test` but like npm, `rnpm test` is more forgiving towards errors. Errors will be logged but will not prevent the next component from being tested.
+
 ## `rnpm list [--depth=n]`
 
-Run `npm list` for every component (including root). Aliased as `ls`.
+Run `npm list` for every component (including root). Aliased as `ls`. Note, this will list the consolidated dependencies, not necessarily the ones listed in the `package.json` files.
 
 ## `rnpm prune [--production]`
 
-Run `npm prune` for every component (including root). Additionally, this command will remove the `.rnpm` and `node_modules` folders from components without overriding dependencies.
+Run `npm prune` for every component (including root). Additionally, this command will remove the `.rnpm` and `node_modules` folders from components that have no overriding dependencies.
 
 ## `rnpm shrinkwrap`
 
-Shrinkwrap all the components.
+Shrinkwrap all the components. Aliased as `shrink`.
 
-## `rnpm execute -- [command]`
+## `rnpm execute -- <command>`
 
 Execute an arbitrary command in every component (including root). Note the two dashes, they signify the end of arguments parsing - the rest is passed to `child_process.spawn()`. Aliased as `exec`. An example:
 

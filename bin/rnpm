@@ -29,18 +29,36 @@ app
 
 app
   .command('shrinkwrap')
+  .alias('shrink')
   .description('Recursive npm shrinkwrap')
   .action(function() {
-    rnpm.custom('shrinkwrap')
+    rnpm.custom('shrinkwrap', true)
   });
 
 app
   .command('list')
   .alias('ls')
-  .option('--depth [n]', 'Max display depth of the dependency tree', parseInt)
+  .option('--depth <n>', 'Max display depth of the dependency tree', parseInt)
   .description('Recursive npm list')
   .action(function(opts) {
-    rnpm.custom('list', {depth: opts.depth || 0})
+    rnpm.custom('list', true, {depth: opts.depth || 0})
+  });
+
+app
+  .command('test')
+  .alias('t')
+  .description('Recursive npm test')
+  .action(function() {
+    rnpm.custom('test', false)
+  });
+
+app
+  .command('run [command]')
+  .description('Recursive npm run-script')
+  .action(function(command) {
+    var args = []
+    if (command) args.push([command])
+    rnpm.custom('run-script', false, null, args)
   });
 
 app
