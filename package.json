@@ -10,13 +10,14 @@
   "version": "0.3.1",
   "dependencies": {
     "commander": "~2.5.0",
-    "dive": "~0.3.0",
     "npm": "~2.1.0",
     "ansi": "~0.3.0",
     "rimraf": "~2.2.8",
     "after": "~0.8.1",
     "cli-prompt": "~0.4.1",
-    "each": "~0.4.9"
+    "each": "~0.4.9",
+    "filter-files": "~0.4.0",
+    "is-directory": "~0.2.3"
   },
   "bin": {
     "rnpm": "./bin/rnpm"
