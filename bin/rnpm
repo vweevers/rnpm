@@ -45,7 +45,7 @@ app
 
 app
   .command('analyze')
-  .description('Analyze dependencies recursively and warn about any inconsistencies')
+  .description('Analyze dependencies and find inconsistencies')
   .action(function() {
     rnpm.analyze({ production: app.production })
   });
@@ -65,6 +65,23 @@ app
       process.exit(0);
     })
   });
+
+app
+  .command('execute <command...>')
+  .alias('exec')
+  .description('Execute an arbitrary command in every component')
+  .action(function(args) {
+    var cmd = args.shift()
+    rnpm.execute(cmd, {}, args)
+  });
+
+app.on('--help', function(){
+  console.log('  Examples:\n');
+  console.log('    $ rnpm i --prod')
+  console.log('    $ rnpm update-dep each-async 1.0.4')
+  console.log('    $ rnpm exec -- ls -A')
+  console.log('    $ rnpm ls --depth=1')
+})
 
 app
   .parse(process.argv);

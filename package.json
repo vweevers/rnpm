@@ -15,7 +15,8 @@
     "ansi": "~0.3.0",
     "rimraf": "~2.2.8",
     "after": "~0.8.1",
-    "cli-prompt": "~0.4.1"
+    "cli-prompt": "~0.4.1",
+    "each": "~0.4.9"
   },
   "bin": {
     "rnpm": "./bin/rnpm"

@@ -64,3 +64,9 @@ Run `npm prune` for every component (including root). Additionally, this command
 ## `rnpm shrinkwrap`
 
 Shrinkwrap all the components.
+
+## `rnpm execute -- [command]`
+
+Execute an arbitrary command in every component (including root). Note the two dashes, they signify the end of arguments parsing - the rest is passed to `child_process.spawn()`. Aliased as `exec`. An example:
+
+`$ rnpm exec -- ls -A`
