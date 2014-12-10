@@ -7,6 +7,9 @@
     "recursive",
     "package manager"
   ],
+  "engines": {
+    "npm": "^2.0.0"
+  },
   "version": "0.3.1",
   "dependencies": {
     "commander": "~2.5.0",
