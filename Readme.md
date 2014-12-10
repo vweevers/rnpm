@@ -75,6 +75,8 @@ Shrinkwrap all the components. Aliased as `shrink`.
 
 ## `rnpm execute -- <command>`
 
-Execute an arbitrary command in every component (including root). Note the two dashes, they signify the end of arguments parsing - the rest is passed to `child_process.spawn()`. Aliased as `exec`. An example:
+Execute an arbitrary command in every component (including root). Note the two dashes, they signify the end of arguments parsing - the rest is passed to `child_process.spawn()`. Aliased as `exec`.
 
-`$ rnpm exec -- ls -A`
+An example, creating [browserify](https://github.com/substack/node-browserify) bundles for all components:
+
+`$ rnpm exec -- browserify index.js > component_bundle.js`
