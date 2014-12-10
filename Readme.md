@@ -33,13 +33,29 @@ Here we have two components: `login` and `settings`, each with its own `package.
     main.js
     package.json
 
+**Version conflicts**
+
 If two or more components depend on different versions of the same module, rnpm will issue a warning, and install one version at the root, and the other version(s) at `[component]/node_modules`.
+
+**Symlinks**
+
+Each component is also symlinked to `node_modules/name`, where `name` is the package name. If that name is taken, rnpm will issue a warning.
+
+```js
+// Now you can do this, anywhere in your project:
+var loginComponent = require('login')
+
+// Instead of:
+var loginComponent = require('../../../lib/login')
+```
+
+**Alias**
 
 For your convenience and npm compatibility, `install` is aliased as `i`.
 
 ## `rnpm analyze [--production]`
 
-Check for conflicting dependency versions and show warnings, without installing anything.
+Find conflicting dependency versions, without installing anything.
 
 ## `rnpm update-dep`
 

@@ -26,7 +26,8 @@ test('install', function(t) {
   createProject(function(err, project) {
     if (err) throw err
 
-    install({cwd: project}, function(){
+    install({cwd: project}, function(err){
+      if (err) throw err
       testStructure(project, t)
       t.end()
     })
@@ -40,7 +41,9 @@ test('install with pre-existing modules', function(t) {
     mkdirp(path.join(project, 'node_modules/beep/boop'), function(err){
       if (err) throw err
 
-      install({cwd: project}, function(){
+      install({cwd: project}, function(err){
+        if (err) throw err
+
         testStructure(project, t)
 
         var pre = path.join(project, 'node_modules/beep/boop')
@@ -59,9 +62,15 @@ test('conflict', function(t) {
     createProject({root: component, underscore: '1.3.3'}, function(err){
       if (err) throw err
 
-      install({cwd: project}, function(){
+      install({cwd: project}, function(err){
+        if (err) throw err
         testStructure(project, t)
         testStructure(component, t, '1.3.3')
+
+        var link = path.join(project, '.rnpm/node_modules/project1')
+        t.ok(isSymlink(link))
+        t.equal(fs.realpathSync(link), component)
+
         t.end()
       })
     })
@@ -75,7 +84,8 @@ test('normalize up', function(t) {
     createProject({root: component, underscore: '1.3.3'}, function(err){
       if (err) throw err
       t.plan(2)
-      install({cwd: project}, function(){
+      install({cwd: project}, function(err){
+        if (err) throw err
         t.equal(readPkg(component).dependencies.underscore, '1.3.3')
 
         var opts = {
@@ -98,7 +108,9 @@ test('normalize down', function(t) {
     createProject({root: component, underscore: '1.3.3'}, function(err){
       if (err) throw err
       t.plan(2)
-      install({cwd: project}, function(){
+      install({cwd: project}, function(err){
+        if (err) throw err
+
         t.equal(readPkg(project).dependencies.underscore, '1.5.1')
 
         var opts = {
@@ -129,7 +141,9 @@ test('execute', function(t) {
     createProject({root: component}, function(err){
       if (err) throw err
 
-      install({cwd: project}, function(){
+      install({cwd: project}, function(err){
+        if (err) throw err
+
         t.notOk(fs.existsSync(path.join(project, 'ran-index')), 'no ./ran-index')
         t.notOk(fs.existsSync(path.join(component, 'ran-index')), 'no ./ran-index')
 
@@ -152,7 +166,9 @@ test('npm test', function(t) {
     createProject({root: component}, function(err){
       if (err) throw err
 
-      install({cwd: project}, function(){
+      install({cwd: project}, function(err){
+        if (err) throw err
+
         t.notOk(fs.existsSync(path.join(project, 'ran-index')), 'no ./ran-index')
         t.notOk(fs.existsSync(path.join(component, 'ran-index')), 'no ./ran-index')
 
@@ -175,7 +191,9 @@ test('npm run', function(t) {
     createProject({root: component}, function(err){
       if (err) throw err
 
-      install({cwd: project}, function(){
+      install({cwd: project}, function(err){
+        if (err) throw err
+
         t.notOk(fs.existsSync(path.join(project, 'ran-index')), 'no ./ran-index')
         t.notOk(fs.existsSync(path.join(component, 'ran-index')), 'no ./ran-index')
 
@@ -201,7 +219,8 @@ test('npm run', function(t) {
 //     createProject({root: component, underscore: '1.3.3'}, function(err){
 //       if (err) throw err
 
-//       install({cwd: project}, function(){
+//       install({cwd: project}, function(err){
+//         if (err) throw err
 //         t.ok(fs.existsSync(path.join(project, 'ran-postinstall')), 'yes ./ran-postinstall')
 //         t.ok(fs.existsSync(path.join(component, 'ran-postinstall')), 'yes ./ran-postinstall')
 //         t.end()
@@ -217,7 +236,8 @@ test('npm run', function(t) {
 //     createProject({root: component, underscore: '1.3.3'}, function(err){
 //       if (err) throw err
 
-//       install({cwd: project, ignoreScripts: true}, function(){
+//       install({cwd: project, ignoreScripts: true}, function(err){
+//         if (err) throw err
 //         t.notOk(fs.existsSync(path.join(project, 'ran-postinstall')), 'no ./ran-postinstall')
 //         t.notOk(fs.existsSync(path.join(component, 'ran-postinstall')), 'no ./ran-postinstall')
 //         t.end()

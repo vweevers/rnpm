@@ -20,8 +20,8 @@ app
   .description('Recursively install dependencies')
   .action(function(ignoreScripts) {
     rnpm.install({
-      production: !!app.production,
-      ignoreScripts: !!ignoreScripts,
+      production: app.production===true,
+      ignoreScripts: ignoreScripts===true,
       strict: app.strict,
       cwd: process.cwd()
     })
@@ -34,8 +34,8 @@ app
   .description('Recursively update dependencies')
   .action(function(ignoreScripts) {
     rnpm.update({
-      production: !!app.production,
-      'ignore-scripts': !!ignoreScripts,
+      production: app.production===true,
+      'ignore-scripts': ignoreScripts===true,
       cwd: process.cwd()
     })
   });
@@ -44,14 +44,14 @@ app
   .command('rebuild')
   .description('Recursively rebuild dependencies')
   .action(function() {
-    rnpm.rebuild({ production: !!app.production, cwd: process.cwd() })
+    rnpm.rebuild({ production: app.production===true, cwd: process.cwd() })
   });
 
 app
   .command('prune')
   .description('Recursive npm prune')
   .action(function() {
-    rnpm.prune({ production: !!app.production, cwd: process.cwd() })
+    rnpm.prune({ production: app.production===true, cwd: process.cwd() })
   });
 
 app
@@ -90,7 +90,7 @@ app
   .command('analyze')
   .description('Analyze dependencies and find inconsistencies')
   .action(function() {
-    rnpm.analyze({ production: app.production, cwd: process.cwd() })
+    rnpm.analyze({ production: app.production===true, cwd: process.cwd() })
   });
 
 app
