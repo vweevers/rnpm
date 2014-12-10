@@ -130,14 +130,14 @@ test('execute', function(t) {
       if (err) throw err
 
       install({cwd: project}, function(){
-        t.notOk(fs.existsSync(path.join(project, 'working')), 'no ./working')
-        t.notOk(fs.existsSync(path.join(component, 'working')), 'no ./working')
+        t.notOk(fs.existsSync(path.join(project, 'ran-index')), 'no ./ran-index')
+        t.notOk(fs.existsSync(path.join(component, 'ran-index')), 'no ./ran-index')
 
         execute('node', {cwd: project}, ['index.js'], function(err){
           if (err) throw err
 
-          t.ok(fs.existsSync(path.join(project, 'working')), 'yes ./working')
-          t.ok(fs.existsSync(path.join(component, 'working')), 'yes ./working')
+          t.ok(fs.existsSync(path.join(project, 'ran-index')), 'ran-index')
+          t.ok(fs.existsSync(path.join(component, 'ran-index')), 'ran-index')
         })
       })
     })
@@ -153,14 +153,14 @@ test('npm test', function(t) {
       if (err) throw err
 
       install({cwd: project}, function(){
-        t.notOk(fs.existsSync(path.join(project, 'working')), 'no ./working')
-        t.notOk(fs.existsSync(path.join(component, 'working')), 'no ./working')
+        t.notOk(fs.existsSync(path.join(project, 'ran-index')), 'no ./ran-index')
+        t.notOk(fs.existsSync(path.join(component, 'ran-index')), 'no ./ran-index')
 
         rnpm.test({cwd: project}, function(err){
           if (err) throw err
 
-          t.ok(fs.existsSync(path.join(project, 'working')), 'yes ./working')
-          t.ok(fs.existsSync(path.join(component, 'working')), 'yes ./working')
+          t.ok(fs.existsSync(path.join(project, 'ran-index')), 'ran-index')
+          t.ok(fs.existsSync(path.join(component, 'ran-index')), 'ran-index')
         })
       })
     })
@@ -176,19 +176,55 @@ test('npm run', function(t) {
       if (err) throw err
 
       install({cwd: project}, function(){
-        t.notOk(fs.existsSync(path.join(project, 'working')), 'no ./working')
-        t.notOk(fs.existsSync(path.join(component, 'working')), 'no ./working')
+        t.notOk(fs.existsSync(path.join(project, 'ran-index')), 'no ./ran-index')
+        t.notOk(fs.existsSync(path.join(component, 'ran-index')), 'no ./ran-index')
 
         rnpm.run('test', {cwd: project}, function(err){
           if (err) throw err
 
-          t.ok(fs.existsSync(path.join(project, 'working')), 'yes ./working')
-          t.ok(fs.existsSync(path.join(component, 'working')), 'yes ./working')
+          t.ok(fs.existsSync(path.join(project, 'ran-index')), 'ran-index')
+          t.ok(fs.existsSync(path.join(component, 'ran-index')), 'ran-index')
         })
       })
     })
   })
 })
+
+// TODO: postinstall scripts of components will not run, because
+// npm install is run in the .rnpm folder (but the script
+// is defined in the components's package.json)
+
+// test('postinstall scripts', function(t) {
+//   createProject(function(err, project) {
+//     var component = path.join(project, 'comp')
+    
+//     createProject({root: component, underscore: '1.3.3'}, function(err){
+//       if (err) throw err
+
+//       install({cwd: project}, function(){
+//         t.ok(fs.existsSync(path.join(project, 'ran-postinstall')), 'yes ./ran-postinstall')
+//         t.ok(fs.existsSync(path.join(component, 'ran-postinstall')), 'yes ./ran-postinstall')
+//         t.end()
+//       })
+//     })
+//   })  
+// })
+
+// test('install --ignore-scripts', function(t) {
+//   createProject(function(err, project) {
+//     var component = path.join(project, 'comp')
+    
+//     createProject({root: component, underscore: '1.3.3'}, function(err){
+//       if (err) throw err
+
+//       install({cwd: project, ignoreScripts: true}, function(){
+//         t.notOk(fs.existsSync(path.join(project, 'ran-postinstall')), 'no ./ran-postinstall')
+//         t.notOk(fs.existsSync(path.join(component, 'ran-postinstall')), 'no ./ran-postinstall')
+//         t.end()
+//       })
+//     })
+//   })  
+// })
 
 test('[teardown]', function(t){
   mockServer && mockServer.close()
@@ -221,13 +257,17 @@ function createProject(opts, done) {
     if (err) return done(err)
 
     var json = JSON.stringify(pkg, null, ' ')
-    var js = "require('fs').writeFile('./working', 'yes');"
+    var index = "require('fs').writeFile('./ran-index', 'yes');"
+    var postinstall = "process.exit(1)//require('fs').writeFile('./ran-postinstall', 'yes');"
 
     fs.writeFile(path.join(root, 'package.json'), json, function(err){
       if (err) return done(err)
 
-      fs.writeFile(path.join(root, 'index.js'), js, function(err){
-        done(err, root)
+      fs.writeFile(path.join(root, 'index.js'), index, function(err){
+        if (err) return done(err)
+        fs.writeFile(path.join(root, 'postinstall.js'), postinstall, function(err){
+          done(err, root)
+        })
       })
     })
   })

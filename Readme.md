@@ -3,7 +3,7 @@ rnpm - recursive npm
 
 `rnpm` is a wrapper around `npm` to allow the installation of dependencies declared in multiple `package.json` files nested into a project structure. This is useful for large projects that are composed of multiple independent *components*.
 
-## `rnpm install [--production]`
+## `rnpm install [--production] [--ignore-scripts]`
 
 Suppose you have the following directory structure:
 

@@ -16,10 +16,12 @@ app
 app
   .command('install')
   .alias('i')
+  .option('--ignore-scripts', 'Do not run scripts')
   .description('Recursively install dependencies')
-  .action(function() {
+  .action(function(ignoreScripts) {
     rnpm.install({
       production: app.production,
+      ignoreScripts: ignoreScripts,
       strict: app.strict,
       cwd: process.cwd()
     })

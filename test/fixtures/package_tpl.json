@@ -4,7 +4,8 @@
   "description": "Test project",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "test": "node index.js",
+    "postinstall": "node postinstall.js"
   },
   "author": "Vincent Weevers",
   "dependencies": {},
