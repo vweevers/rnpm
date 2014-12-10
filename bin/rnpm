@@ -2,6 +2,7 @@
 
 var app = require('commander')
   , fs = require('fs')
+  , npm = require('npm')
   , rnpm = require('../lib')
   , path = require('path');
 
@@ -17,14 +18,18 @@ app
   .alias('i')
   .description('Recursively install dependencies')
   .action(function() {
-    rnpm.install({ production: app.production, strict: app.strict })
+    rnpm.install({
+      production: app.production,
+      strict: app.strict,
+      cwd: process.cwd()
+    })
   });
 
 app
   .command('prune')
   .description('Recursive npm prune')
   .action(function() {
-    rnpm.prune({ production: app.production })
+    rnpm.prune({ production: app.production, cwd: process.cwd() })
   });
 
 app
@@ -32,7 +37,7 @@ app
   .alias('shrink')
   .description('Recursive npm shrinkwrap')
   .action(function() {
-    rnpm.custom('shrinkwrap', true)
+    rnpm.custom('shrinkwrap', true, { cwd: process.cwd() })
   });
 
 app
@@ -41,7 +46,7 @@ app
   .option('--depth <n>', 'Max display depth of the dependency tree', parseInt)
   .description('Recursive npm list')
   .action(function(opts) {
-    rnpm.custom('list', true, {depth: opts.depth || 0})
+    rnpm.custom('list', true, {depth: opts.depth || 0, cwd: process.cwd()})
   });
 
 app
@@ -49,37 +54,35 @@ app
   .alias('t')
   .description('Recursive npm test')
   .action(function() {
-    rnpm.custom('test', false)
+    rnpm.test({ cwd: process.cwd() })
   });
 
 app
-  .command('run [command]')
+  .command('run [script]')
   .description('Recursive npm run-script')
-  .action(function(command) {
-    var args = []
-    if (command) args.push([command])
-    rnpm.custom('run-script', false, null, args)
+  .action(function(script) {
+    rnpm.run(script, { cwd: process.cwd() })
   });
 
 app
   .command('analyze')
   .description('Analyze dependencies and find inconsistencies')
   .action(function() {
-    rnpm.analyze({ production: app.production })
+    rnpm.analyze({ production: app.production, cwd: process.cwd() })
   });
 
 app
   .command('update-dep <dependency> <version>')
   .description('Update a dependency version recursively')
   .action(function(dep, version) {
-    rnpm.updateDep({ dependency: dep, version: version });
+    rnpm.updateDep({ dependency: dep, version: version, cwd: process.cwd() });
   });
 
 app
   .command('normalize')
   .description('Normalize dependencies recursively')
   .action(function() {
-    rnpm.normalize({}, function() {
+    rnpm.normalize({cwd: process.cwd()}, function() {
       process.exit(0);
     })
   });
@@ -90,7 +93,7 @@ app
   .description('Execute an arbitrary command in every component')
   .action(function(args) {
     var cmd = args.shift()
-    rnpm.execute(cmd, {}, args)
+    rnpm.execute(cmd, {cwd: process.cwd()}, args)
   });
 
 app.on('--help', function(){
@@ -101,9 +104,11 @@ app.on('--help', function(){
   console.log('    $ rnpm ls --depth=1')
 })
 
-app
-  .parse(process.argv);
-
 if (process.argv.length == 2) {
-  app.help()
+  return app.help()
 }
+
+// Initialize NPM as a lib
+npm.load({}, function() {
+  app.parse(process.argv)
+})

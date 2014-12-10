@@ -1,0 +1,12 @@
+{
+  "name": "project1",
+  "version": "0.0.1",
+  "description": "Test project",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "Vincent Weevers",
+  "dependencies": {},
+  "license": "MIT"
+}
