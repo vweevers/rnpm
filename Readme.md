@@ -53,6 +53,14 @@ Recursively update a dependency version across multiple `package.json` files. It
 
 Check for conflicting dependency versions, and prompt for the correct version on each inconsistency found. It's equivalent to calling `rnpm analyze` and then `rnpm update-dep` manually (but much faster).
 
+## `rnpm update [--production] [--ignore-scripts]`
+
+`npm update` all the components. Aliased as `u`.
+
+## `rnpm rebuild [--production]`
+
+`npm rebuild` all the components.
+
 ## `rnpm run [script]`
 
 Run a script with `npm run` for every component (including root). If no `script` argument is provided, it will list available scripts.
