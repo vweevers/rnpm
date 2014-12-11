@@ -59,7 +59,7 @@ app
   .alias('shrink')
   .description('Recursive npm shrinkwrap')
   .action(function() {
-    rnpm.custom('shrinkwrap', true, { cwd: process.cwd() })
+    rnpm.shrinkwrap( { cwd: process.cwd() })
   });
 
 app

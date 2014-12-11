@@ -95,7 +95,11 @@ Run `npm prune` for every component (including root). Additionally, this command
 
 ## `rnpm shrinkwrap`
 
-Shrinkwrap all the components. Aliased as `shrink`.
+Shrinkwrap all the components. Aliased as `shrink`. Differences from `npm shrinkwrap`:
+
+- `--dev` option is not supported
+- does not warn about excluded devDependencies and extraneous packages
+- ignores (but warns about) other problems
 
 ## `rnpm execute -- <command>`
 
