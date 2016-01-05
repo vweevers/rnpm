@@ -21,6 +21,7 @@
     "clone": "~0.1.19",
     "commander": "~2.5.0",
     "each": "~0.4.9",
+    "empty-dir": "~0.1.0",
     "filter-files": "~0.4.0",
     "is-directory": "~0.2.3",
     "npm": "~3.5.2",
