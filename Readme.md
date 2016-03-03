@@ -73,6 +73,10 @@ Check for conflicting dependency versions, and prompt for the correct version on
 
 `npm update` all the components. Aliased as `u`.
 
+## `rnpm version [major | minor | patch]`
+
+Like `npm version`, but for all packages. Updates the version number of each package, as well as internal dependencies (sets dependency to `~x.x.x` in `dependencies` and / or `devDependencies` of a `package.json`), then runs `npm version` on the root. Without any arguments, `rnpm version` prints the current version. Note: `rnpm version x.x.x` is not yet supported.
+
 ## `rnpm rebuild [--production]`
 
 `npm rebuild` all the components.

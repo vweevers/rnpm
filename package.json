@@ -25,7 +25,8 @@
     "filter-files": "~0.4.0",
     "is-directory": "~0.2.3",
     "npm": "~3.5.2",
-    "rimraf": "~2.2.8"
+    "rimraf": "~2.2.8",
+    "slide": "~1.1.6"
   },
   "bin": {
     "rnpm": "./bin/rnpm"

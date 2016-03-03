@@ -6,8 +6,8 @@ var app = require('commander')
   , rnpm = require('../lib')
   , path = require('path');
 
-app
-  .version(JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf-8')).version);
+// "rnpm version" is interpreted as "rnpm --version"..
+// app.version(require('../package.json').version);
 
 app
   .option('--prod, --production', 'Ignore `devDependencies`.')
@@ -52,6 +52,13 @@ app
   .description('Recursive npm prune')
   .action(function() {
     rnpm.prune({ production: app.production===true, cwd: process.cwd() })
+  });
+
+app
+  .command('version [version]')
+  .description('Update version of all packages and add git tag')
+  .action(function(version) {
+    rnpm.version({ version: version, cwd: process.cwd() })
   });
 
 app
@@ -124,6 +131,7 @@ app.on('--help', function(){
   console.log('    $ rnpm update-dep each-async 1.0.4')
   console.log('    $ rnpm exec -- ls -A')
   console.log('    $ rnpm ls --depth=1')
+  console.log('    $ rnpm version patch')
 })
 
 if (process.argv.length == 2) {
@@ -131,6 +139,7 @@ if (process.argv.length == 2) {
 }
 
 // Initialize NPM as a lib
-npm.load({}, function() {
+npm.load({}, function(err) {
+  if (err) throw err
   app.parse(process.argv)
 })
