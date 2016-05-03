@@ -14,18 +14,20 @@
     "test": "tape test/*.js | tap-spec"
   },
   "version": "0.3.1",
+  "license": "MIT",
   "dependencies": {
     "after": "~0.8.1",
     "ansi": "~0.3.0",
     "cli-prompt": "~0.4.1",
     "clone": "~0.1.19",
-    "commander": "~2.5.0",
+    "commander": "~2.9.0",
     "each": "~0.4.9",
     "empty-dir": "~0.1.0",
     "filter-files": "~0.4.0",
-    "is-directory": "~0.2.3",
-    "npm": "~3.5.2",
-    "rimraf": "~2.2.8",
+    "is-directory": "~0.3.0",
+    "npm": "~3.8.6",
+    "rimraf": "~2.5.2",
+    "semver": "~5.1.0",
     "slide": "~1.1.6"
   },
   "bin": {
@@ -35,7 +37,7 @@
     "is-path-inside": "~1.0.0",
     "mkdirp": "~0.5.0",
     "npm-registry-mock": "~0.6.3",
-    "tape": "~3.0.3",
+    "tape": "~4.5.1",
     "xtend": "~4.0.0"
   }
 }

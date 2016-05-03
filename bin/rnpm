@@ -128,7 +128,7 @@ app
 app.on('--help', function(){
   console.log('  Examples:\n');
   console.log('    $ rnpm i --prod')
-  console.log('    $ rnpm update-dep each-async 1.0.4')
+  console.log('    $ rnpm update-dep through2 ~2.0.1')
   console.log('    $ rnpm exec -- ls -A')
   console.log('    $ rnpm ls --depth=1')
   console.log('    $ rnpm version patch')
